@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROBLOX - The Hunt: Roblox 20 Ultimate Guide</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Verdana', Arial, sans-serif; }
+        body { background-color: #e3e3e3; color: #333; min-height: 100vh; overflow-x: hidden; }
+        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .navbar { background: linear-gradient(to bottom, #0074d9, #0055a5); border-bottom: 2px solid #003366; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.2); animation: slideDown 0.5s ease-out; position: sticky; top: 0; z-index: 100; }
+        .logo { color: white; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 0 #003366; cursor: pointer; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 15px; align-items: center; }
+        .nav-links a { color: white; text-decoration: none; font-size: 12px; font-weight: bold; padding: 5px 10px; border-radius: 3px; transition: 0.2s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        .date-display { background: rgba(0,0,0,0.3); color: #FFD700; padding: 4px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 15px; animation: fadeIn 0.8s ease-out; }
+        .box { background: white; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; animation: slideUp 0.6s ease-out; }
+        .box-header { background: linear-gradient(to bottom, #f0f0f0, #e0e0e0); border-bottom: 1px solid #ccc; padding: 8px 12px; font-weight: bold; font-size: 13px; color: #333; }
+        .box-content { padding: 20px; }
+        .title-box { text-align: center; padding: 20px; }
+        .title-box h1 { color: #0055a5; font-size: 28px; margin-bottom: 10px; }
+        .title-box p { color: #666; font-size: 14px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+        .year-btn { background: linear-gradient(to bottom, #ffffff, #e6e6e6); border: 1px solid #999; border-bottom: 3px solid #777; padding: 12px 10px; font-size: 16px; font-weight: bold; color: #333; cursor: pointer; border-radius: 3px; transition: all 0.2s ease; }
+        .year-btn:hover { background: linear-gradient(to bottom, #e6f2ff, #cce0ff); border-color: #0074d9; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,116,217,0.3); }
+        .year-btn:active { transform: translateY(0); border-bottom: 1px solid #777; }
+        .year-btn.claimable { border-color: #e0b800; box-shadow: 0 0 6px 1px rgba(255, 215, 0, 0.55), inset 0 0 2px rgba(255, 215, 0, 0.35); }
+        .year-btn.claimable:hover { box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.65), 0 5px 15px rgba(0,116,217,0.3); }
+        .year-btn.unverified { border-color: #aaa; opacity: 0.85; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(3px); }
+        .overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
+        .modal { background: white; border: 2px solid #0055a5; border-radius: 5px; width: 100%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 5px 20px rgba(0,0,0,0.4); animation: slideUp 0.4s ease-out; }
+        .modal-header { background: linear-gradient(to bottom, #0074d9, #0055a5); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #003366; }
+        .modal-header h2 { font-size: 16px; }
+        .close-btn { background: #d93838; color: white; border: 1px solid #990000; border-bottom: 2px solid #660000; width: 24px; height: 24px; font-size: 14px; font-weight: bold; cursor: pointer; border-radius: 2px; transition: 0.2s; }
+        .close-btn:hover { transform: scale(1.1); }
+        .close-btn:active { transform: translateY(1px); border-bottom: 1px solid #660000; }
+        .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
+        .choice-box { text-align: center; padding: 20px; }
+        .choice-box h3 { font-size: 18px; margin-bottom: 20px; }
+        .big-btn { display: block; width: 100%; padding: 14px; margin-bottom: 10px; font-size: 16px; font-weight: bold; border-radius: 3px; cursor: pointer; border: 1px solid; border-bottom: 3px solid; transition: all 0.2s ease; text-align: center; text-decoration: none; }
+        .big-btn:active { transform: translateY(2px); border-bottom-width: 1px; }
+        .btn-normal { background: linear-gradient(to bottom, #fff, #e6e6e6); border-color: #999; border-bottom-color: #777; color: #333; }
+        .btn-normal:hover { background: linear-gradient(to bottom, #f0f0f0, #d9d9d9); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .btn-secret { background: linear-gradient(to bottom, #fff9c4, #fff59d); border-color: #fbc02d; border-bottom-color: #f9a825; color: #333; }
+        .btn-secret:hover { background: linear-gradient(to bottom, #fff59d, #fff176); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(251,192,45,0.4); }
+        .btn-back { background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); border-color: #999; border-bottom-color: #777; color: #333; margin-top: 15px; }
+        .btn-continue { background: linear-gradient(to bottom, #81C784, #4CAF50); border-color: #388E3C; border-bottom-color: #2E7D32; color: white; margin-top: 10px; }
+        .btn-continue:hover { background: linear-gradient(to bottom, #66BB6A, #43A047); transform: translateY(-2px); }
+        .btn-video { background: linear-gradient(to bottom, #ff4444, #cc0000); border-color: #990000; border-bottom-color: #660000; color: white; font-size: 16px; padding: 15px; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-video:hover { background: linear-gradient(to bottom, #ff3333, #bb0000); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(204,0,0,0.4); }
+        .btn-visual { background: linear-gradient(to bottom, #4FC3F7, #29B6F6); border-color: #0288D1; border-bottom-color: #0277BD; color: white; font-size: 16px; padding: 15px; margin-top: 15px; }
+        .btn-visual:hover { background: linear-gradient(to bottom, #29B6F6, #03A9F4); transform: translateY(-2px); }
+        .step-box { background: #f9f9f9; border: 1px solid #ccc; border-left: 4px solid #0055a5; padding: 15px; margin-bottom: 15px; border-radius: 3px; animation: slideUp 0.5s ease-out; }
+        .step-box.secret { border-left-color: #9C27B0; background: #faf5ff; }
+        .step-box.unverified { border-left-color: #aaa; background: #f5f5f5; }
+        .step-box h4 { font-size: 16px; margin-bottom: 12px; color: #222; }
+        .step-list { list-style: none; }
+        .step-list li { background: white; border: 1px solid #ddd; padding: 12px 12px 12px 45px; margin-bottom: 10px; position: relative; font-size: 14px; border-radius: 3px; transition: 0.2s; line-height: 1.4; }
+        .step-list li:hover { transform: translateX(5px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .step-num { position: absolute; left: 8px; top: 10px; background: #0074d9; color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; }
+        .secret .step-num { background: #9C27B0; }
+        .unverified .step-num { background: #999; }
+        .step-title { font-weight: bold; color: #0055a5; display: block; margin-bottom: 4px; font-size: 15px; }
+        .secret .step-title { color: #9C27B0; }
+        .unverified .step-title { color: #666; }
+        .info-box { padding: 12px; border-radius: 3px; margin-bottom: 12px; border: 1px solid; font-size: 14px; animation: slideUp 0.5s ease-out; }
+        .info-loc { background: #e8f5e9; border-color: #4CAF50; color: #2E7D32; }
+        .info-tip { background: #fff3e0; border-color: #FF9800; color: #E65100; }
+        .info-warn { background: #ffebee; border-color: #F44336; color: #C62828; }
+        .info-reward { background: #f3e5f5; border-color: #9C27B0; color: #6A1B9A; text-align: center; }
+        .info-unverified { background: #fffde7; border-color: #fbc02d; color: #5d4037; }
+        .info-box strong { display: block; margin-bottom: 4px; font-size: 15px; }
+        .visual-guide { display: none; background: #fff3cd; border: 2px solid #ffc107; border-radius: 5px; padding: 15px; margin-top: 15px; animation: fadeIn 0.5s ease-out; }
+        .visual-guide.show { display: block; }
+        .visual-guide h5 { color: #856404; margin-bottom: 10px; font-size: 16px; }
+        .visual-guide p { margin-bottom: 8px; font-size: 13px; line-height: 1.5; }
+        .visual-box { background: white; border: 1px dashed #ffc107; border-radius: 3px; padding: 10px; margin: 10px 0; text-align: center; }
+        .gift-box, .button-loc { background: white; border: 1px solid #9C27B0; border-radius: 3px; padding: 12px; margin-bottom: 10px; transition: 0.2s; }
+        .button-loc { border-color: #0074d9; }
+        .gift-box:hover, .button-loc:hover { transform: translateY(-2px); box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+        .gift-box h5, .button-loc h5 { font-size: 15px; margin-bottom: 6px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+        .gift-box p, .button-loc p { margin-bottom: 4px; font-size: 13px; line-height: 1.5; }
+        .tool { font-weight: bold; color: #D32F2F; background: #ffebee; padding: 2px 5px; border-radius: 2px; }
+        .code-display { background: #263238; color: #00E676; padding: 12px 15px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; text-align: center; margin: 15px 0; border: 1px solid #455A64; letter-spacing: 3px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .modal-body::-webkit-scrollbar { width: 10px; }
+        .modal-body::-webkit-scrollbar-track { background: #f1f1f1; }
+        .modal-body::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
+        .modal-body::-webkit-scrollbar-thumb:hover { background: #999; }
+        .verified-badge { display: inline-block; background: #4CAF50; color: white; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
+        .unverified-badge { display: inline-block; background: #ff9800; color: white; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
+        
+        /* Agreement Modal Styles */
+        .agreement-modal { background: white; border: 3px solid #0055a5; border-radius: 5px; width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 5px 30px rgba(0,0,0,0.5); animation: slideUp 0.4s ease-out; }
+        .agreement-modal .modal-header { background: linear-gradient(to bottom, #ff6b35, #d9534f); }
+        .agreement-content { padding: 25px; overflow-y: auto; }
+        .agreement-content h3 { color: #0055a5; font-size: 20px; margin-bottom: 15px; text-align: center; }
+        .agreement-text { background: #f9f9f9; border: 1px solid #ddd; border-radius: 3px; padding: 15px; margin-bottom: 20px; font-size: 13px; line-height: 1.6; max-height: 250px; overflow-y: auto; }
+        .agreement-text p { margin-bottom: 12px; }
+        .agreement-text strong { color: #d9534f; }
+        .agreement-text ul { margin-left: 20px; margin-bottom: 12px; }
+        .agreement-text li { margin-bottom: 8px; }
+        .checkbox-container { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding: 12px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 3px; }
+        .checkbox-container input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+        .checkbox-container label { font-size: 14px; cursor: pointer; user-select: none; }
+        .checkbox-container.disabled { opacity: 0.5; }
+        .checkbox-container.disabled input, .checkbox-container.disabled label { cursor: not-allowed; }
+        .status-message { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 15px; padding: 12px; border-radius: 3px; transition: all 0.3s; }
+        .status-scroll { background: #e3f2fd; color: #1976D2; border: 1px solid #90CAF9; }
+        .status-timer { background: #fff3e0; color: #E65100; border: 1px solid #FFB74D; }
+        .status-ready { background: #e8f5e9; color: #2E7D32; border: 1px solid #81C784; }
+        .confirm-btn { width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 3px; cursor: pointer; border: 1px solid; border-bottom: 3px solid; transition: all 0.2s; }
+        .confirm-btn:active { transform: translateY(2px); border-bottom-width: 1px; }
+        .confirm-btn.enabled { background: linear-gradient(to bottom, #5cb85c, #449d44); border-color: #398439; border-bottom-color: #2d6a2d; color: white; }
+        .confirm-btn.enabled:hover { background: linear-gradient(to bottom, #449d44, #398439); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(68,157,68,0.4); }
+        .confirm-btn.disabled { background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); border-color: #999; border-bottom-color: #777; color: #999; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" onclick="closeModal()">ROBLOX</div>
+        <div class="nav-links">
+            <div class="date-display" id="navDate">Loading...</div>
+            <a href="#">Games</a>
+            <a href="#">Catalog</a>
+            <a href="#">Create</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="box">
+            <div class="title-box">
+                <h1>The Hunt: Roblox 20 Ultimate Guide</h1>
+                <p>Select a year below to see exactly how to get the Normal and Secret badges! (Yellow glowing year = Secret Badge claimable right now)</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header">Choose a Year</div>
+            <div class="box-content">
+                <div class="grid" id="yearGrid"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Agreement Modal -->
+    <div class="overlay" id="agreementOverlay">
+        <div class="agreement-modal">
+            <div class="modal-header">
+                <h2> Important Agreement</h2>
+            </div>
+            <div class="agreement-content">
+                <h3>Welcome to The Hunt: Roblox 20 Guide!</h3>
+                <div class="agreement-text" id="agreementText">
+                    <p>Before you start using this guide, please read and agree to the following important rules:</p>
+                    <p><strong>⚠️ CRITICAL RULE - Normal Badge First:</strong></p>
+                    <p>You <strong>MUST complete and receive the Normal Badge first</strong> before you can claim the Secret Badge for any year. The Secret Badge quests will NOT work until you have the Normal Badge.</p>
+                    <p><strong>📌 Important Notes:</strong></p>
+                    <ul>
+                        <li>Each year has a Normal Badge quest that you must complete first</li>
+                        <li>After getting the Normal Badge, you can then attempt the Secret Badge quest</li>
+                        <li>Secret Badges release in DROPS of 5 games (Drop 1, 2, 3, 4). A glowing yellow year button means its secret is claimable now!</li>
+                        <li>After completing any quest, you MUST return to the main Hunt Hub and click the shimmering statue for that year to claim your reward</li>
+                        <li>For the 2006 Secret Badge specifically, you must go to the BLUE MOUNTAIN in the main hub</li>
+                        <li>Keep this page bookmarked to easily find the guides later!</li>
+                        <li>If a guide doesn't make sense, use the "Show Visual Guide" button or watch the YouTube video link provided at the bottom of the guide.</li>
+                        <li>Secret badges are hidden and require exploration. Don't give up if you don't see it immediately!</li>
+                        <li>Good luck on your hunt, Robloxian!</li>
+                    </ul>
+                    <p>By clicking "I Agree & Continue", you confirm that you understand you must complete the Normal Badge before attempting the Secret Badge for each year.</p>
+                    <p style="text-align: center; color: #888; font-style: italic; margin-top: 20px;">~ End of Rules ~</p>
+                </div>
+                
+                <div class="status-message status-scroll" id="statusMessage">⬇️ Please scroll to the bottom of the rules to continue ️</div>
+                
+                <div class="checkbox-container disabled" id="checkboxContainer">
+                    <input type="checkbox" id="agreementCheckbox" disabled>
+                    <label for="agreementCheckbox">I understand I must complete the Normal Badge first before attempting the Secret Badge</label>
+                </div>
+                
+                <button class="confirm-btn disabled" id="confirmBtn" disabled>I Agree & Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Select Year</h2>
+                <button class="close-btn" onclick="closeModal()">X</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+    <script>
+        const now = new Date();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const year = now.getFullYear();
+        const todayCode = `${month}${day}${year}`;
+        const todayFormatted = `${month}/${day}/${year}`;
+        document.getElementById('navDate').textContent = `Today: ${todayFormatted}`;
+
+        /* Drop schedule - times stored in UTC, displayed in user's local timezone */
+        const drops = [
+            { name: "Drop 1", time: "2026-09-19T18:30:00Z", years: [2006, 2010, 2011, 2021, 2023], verified: true },
+            { name: "Drop 2", time: "2026-09-22T02:00:00Z", years: [2008, 2013, 2016, 2019, 2024], verified: false },
+            { name: "Drop 3", time: "2026-09-23T21:00:00Z", years: [2009, 2012, 2017, 2018, 2022], verified: false },
+            { name: "Drop 4", time: "2026-09-25T16:00:00Z", years: [2007, 2014, 2015, 2020, 2025], verified: false }
+        ];
+        
+        function getDrop(y) { return drops.find(d => d.years.includes(y)); }
+        function isSecretClaimable(y) {
+            const d = getDrop(y);
+            return d ? Date.now() >= new Date(d.time).getTime() : false;
+        }
+        function getLocalTimeStr(utcStr) {
+            const d = new Date(utcStr);
+            return d.toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
+        }
+        
+        const data = {
+            2006: { game: "Crossroads", normal: { title: "Normal Badge - Crossroads Tower (Get 3 KOs)", steps: [{t:"Enter Crossroads", d:"Click the 2006 portal in the Hunt Hub."},{t:"Grab a Weapon", d:"Pick up the Rocket Launcher from the weapon spawns."},{t:"Get 3 KOs", d:"Defeat 3 players - your KO progress shows on screen."},{t:"Claim", d:"Return to the Hunt Hub and click the shimmering 2006 statue."}], loc: "Crossroads arena", tip: "Rocket Launcher splash damage = fastest KOs!", warn: "", reward: "Crossroads Tower badge + UGC" }, secret: { title: "Secret Badge - 4 Purple Gifts (Original Web Elements)", intro: "Needs the normal Crossroads badge first! VERIFIED REAL - went live September 19th.", verified: true, steps: [{t:"Enter Crossroads", d:"Take the 2006 portal into the real Crossroads map."},{t:"Click the Billboard", d:"From spawn walk to the grey platform on your right and press E on the 'Quality Homes ROBLOX Realtors SOLD' real-estate billboard. The map now generates endless new terrain!"},{t:"Gift 1 - Hilltop", d:"Purple gift floats above a hill. Stand under it and stack a wall/staircase with the TROWEL, then jump on it."},{t:"Gift 2 - Black Castle", d:"Find the black castle wall with yellow vertical bars/grate. Blow the yellow stripes with a ROCKET (or build up with the TROWEL) and walk in."},{t:"Gift 3 - Glass Wall", d:"Between the yellow arch bridge and the hurricane-insurance billboard. Shift-lock squeeze through the seam, then drop a BOMB - the blast launches you through the glass into the gift."},{t:"Gift 4 - Sky / Trampoline", d:"High in the sky above the trampoline - bounce to touch it (one player grabs it, the whole server gets it). It is also auto-awarded on character reset, so save it for last."},{t:"Claim UGC", d:"Badge popup = badge only! Return to the Hunt Hub and walk INSIDE the BLUE MOUNTAIN to claim the secret UGC."}], loc: "Crossroads (expanded map)", tip: "Gifts glow bright purple and are visible from far away. No fixed order!", warn: "MUST have the normal 3-KO badge first!", reward: "Secret badge + Original Web Elements UGC", isGifts: true, visualDesc: "Click the real-estate billboard to expand the map. Gifts: 1) floating above a hilltop (TROWEL wall), 2) inside black castle behind yellow bars (ROCKET + TROWEL), 3) behind glass between yellow arch bridge & hurricane billboard (BOMB launch), 4) high sky above trampoline (bounce / reset grant). Claim UGC inside BLUE MOUNTAIN in hub." } },
+            2007: { game: "Sword Fights on the Heights IV", normal: { title: "Normal Badge - Duel of the Heights (Collect 4 Swords)", steps: [{t:"Enter Game", d:"Click the 2007 portal into Sword Fights on the Heights IV."},{t:"Default Sword", d:"You start holding the default sword - that's 1 of 4."},{t:"Find Swords", d:"Collect the other special swords from pedestals around the heights."},{t:"Or Kill Carriers", d:"Killing a player carrying a special sword drops it - pick it up to count it."},{t:"Claim", d:"At 4 different swords, return to the Hub statue."}], loc: "SFOTH IV map", tip: "Killing sword carriers is often faster than searching!", warn: "", reward: "Duel of the Heights badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 4)", intro: "This secret goes live with Drop 4. Guide NOT YET VERIFIED - the community is still solving it when the drop goes live.", verified: false, steps: [{t:"Wait for Drop 4", d:"This secret unlocks with Drop 4."},{t:"Normal Badge First", d:"Earn the normal sword-collecting badge first."},{t:"Check Hub Clue", d:"When Drop 4 goes live, check the Hunt Hub for the 2007 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2007 pedestal."}], loc: "SFOTH IV (TBD)", tip: "The 'John, Loved of Muses' classic secret exists in the original game - may be related!", warn: "Guide not yet confirmed - wait for Drop 4!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 4 goes live, check the Hunt Hub clue for exact steps." } },
+            2008: { game: "Rocket Arena", normal: { title: "Normal Badge - Brick-Blast Jetpack (Get 5 KOs)", steps: [{t:"Enter Game", d:"Click the 2008 portal."},{t:"Get Rocket", d:"Grab the rocket launcher."},{t:"Get 5 KOs", d:"Fire into groups of players from range - splash damage stacks KOs fast."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Rocket Arena", tip: "Use the jetpack to reposition, but fight from range!", warn: "", reward: "Brick-Blast Jetpack badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 2)", intro: "This secret goes live with Drop 2. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 2", d:"This secret unlocks with Drop 2."},{t:"Normal Badge First", d:"Earn the 5-KO badge first."},{t:"Check Hub Clue", d:"When Drop 2 goes live, check the Hunt Hub for the 2008 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2008 pedestal."}], loc: "Rocket Arena (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 2!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 2 goes live, check the Hunt Hub clue for exact steps." } },
+            2009: { game: "Chaos Canyon", normal: { title: "Normal Badge - Crest of the Canyon (Get 4 KOs)", steps: [{t:"Enter Game", d:"Click the 2009 portal."},{t:"Get Weapon", d:"Grab sword or rocket launcher."},{t:"Get 4 KOs", d:"Small map = close-range fights. Keep moving between engagements."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Chaos Canyon", tip: "Don't stay exposed - rotate between fights!", warn: "", reward: "Crest of the Canyon badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 3)", intro: "This secret goes live with Drop 3. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 3", d:"This secret unlocks with Drop 3."},{t:"Normal Badge First", d:"Earn the 4-KO badge first."},{t:"Check Hub Clue", d:"When Drop 3 goes live, check the Hunt Hub for the 2009 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2009 pedestal."}], loc: "Chaos Canyon (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 3!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 3 goes live, check the Hunt Hub clue for exact steps." } },
+            2010: { game: "Work at a Pizza Place", normal: { title: "Normal Badge - Builder Brother's Balancing Act (Secret Recipe)", steps: [{t:"Start Event", d:"Select '[EVENT] ROBLOX 20' mode."},{t:"Follow Story", d:"Pizza-making sequence, then the fire incident, then meet the detective."},{t:"Time Machine", d:"Travel back to the older version of the pizza place."},{t:"Cook 3 Pizzas", d:"Make Cheese, Pepperoni and Sausage pizzas. Box them and deliver - check each house's mailbox for the right address."},{t:"Steal Recipe", d:"Return to the manager's office and grab the secret recipe."},{t:"Finish", d:"Use the time machine again, then claim at the 2010 Hub statue."}], loc: "Follow the storyline", tip: "Follow the quest markers - mailboxes identify delivery houses!", warn: "", reward: "Builder Brother's Balancing Act badge + UGC" }, secret: { title: "Secret Badge - Gear Hoarder Loadout Belt", intro: "Needs the normal badge first! VERIFIED REAL - went live September 19th.", verified: true, steps: [{t:"Boat to the Island", d:"Drive to the pier beside the pizza place, boat across to the island and enter the underground lab/bunker."},{t:"Enter Code 06212010", d:"Type 06212010 on the ENTER CODE keypad (same in every server). Time machine cutscene -> 2010 shift with the Detective."},{t:"Work the 2010 Shift", d:"Cook, box and deliver the pizzas. Then hide by the grassy section behind the building for a cutscene (recipe gets stolen). Talk to Tony Builder behind the building - he knocks you out and opens the puzzle half."},{t:"Register Memory Puzzle", d:"At the cash registers a pizza appears on screen - press the matching button on the left/right register. Repeat the whole growing sequence (~8-9 entries). One mistake resets it!"},{t:"Subtraction Puzzle", d:"Kitchen wall shows prompts like 39- / 22- (subtract from 99). Adjust sauce/topping piles to the targets (drag away = subtract, click = add). Write the 4 final numbers in order and enter them at the boxing-area code panel to get a key."},{t:"Pizza Box Code", d:"Watch the pizza boxes on the conveyor - opening graphics reveal digits. Read in order = 8-digit code (unique per session!). Crawl into the vent and punch it into the keypad lockbox for the key that opens the exit door / dumpster passage."},{t:"Emoji Cipher Trophies", d:"In the time machine room emojis bounce into corners. Corner order: bottom-right 1st, top-right 2nd, top-left 3rd, bottom-left 4th. Match emojis to statues (chicken=turkey, skull=skull & crossbones, cheese=rat, cake=10-year trophy) and load the 4 trophies into the furnaces in that corner order."},{t:"Enter Today's Date", d:`On the final terminal enter TODAY'S DATE as MMDDYYYY:<br><br><div class="code-display">${todayCode}</div><br>Type this exact code - it changes every day! (Today is ${todayFormatted})`},{t:"Finish & Claim", d:"Confrontation cutscene with the Detective, back to 2026. Talk to Dued1 at the manager's office / boxing station. Credits roll = badge! Claim the UGC at the 2010 Hub pedestal."}], loc: "Sell-Item Island bunker + 2010 pizzeria", tip: "Keep a notepad! 06212010 is fixed, but the conveyor code and pile targets generate per session.", warn: "MUST complete the normal recipe quest first!", reward: "Secret badge + Gear Hoarder Loadout Belt UGC", visualDesc: "Island bunker keypad 06212010 -> 2010 shift -> register memory game -> subtraction piles (subtract from 99) -> conveyor 8-digit code in vent lockbox -> emoji statues into furnaces (BR, TR, TL, BL corner order) -> final code = today's date MMDDYYYY -> talk to Dued1." } },
+            2011: { game: "Natural Disaster Survival", normal: { title: "Normal Badge - The Disaster Forecaster (Rescue 3 Animals)", steps: [{t:"Enter Game", d:"Click the 2011 portal."},{t:"Play Rounds", d:"Survive disaster rounds."},{t:"Rescue Animals", d:"Pick up an animal, keep it with you through the round, then take it to the pen after the round ends."},{t:"Repeat x3", d:"Rescue 3 animals total."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Disaster maps", tip: "A private server makes this trivial - no competition for animals!", warn: "", reward: "The Disaster Forecaster badge + UGC" }, secret: { title: "Secret Badge - Personal Safety Spikes (Hat Donation)", intro: "Needs the normal badge first! VERIFIED REAL - went live September 19th.", verified: true, steps: [{t:"Enter the Bunker", d:"Go to the LOWEST part of the spawn/waiting lobby. Click the exact centre of the spiral staircase floor - you drop into a secret bunker."},{t:"Flip the Switch", d:"Turn left inside, find the wall monitor showing canCollectHats[YourUsername] = false. Click it and change it to true."},{t:"Collect Hats", d:"Play normal rounds. Players who die or leave drop hats on the ground - pick them up and stack them."},{t:"Survive & Deposit", d:"Survive to round end with the hats, then head back down and drop them into the glass Hat Donation Box."},{t:"Fill the Box", d:"Repeat across rounds until the box is full (20 deposited hats). The badge fires at capacity."},{t:"Claim", d:"Claim Personal Safety Spikes from the statue behind the RED BARN in the 2011 hub area."}], loc: "Secret bunker under the lobby", tip: "Join a BUSY server - hats drop when players die. It's a server-wide job!", warn: "MUST have the normal badge first!", reward: "Secret badge + Personal Safety Spikes UGC", visualDesc: "Lowest spawn point -> click centre of spiral staircase -> bunker -> set canCollectHats to true -> collect death hats each round -> deposit in glass box until full (20) -> claim behind red barn in 2011 hub." } },
+            2012: { game: "Base Wars", normal: { title: "Normal Badge - Manliest Man Award (Win 1 or Lose 2)", steps: [{t:"Enter Game", d:"Click the 2012 portal."},{t:"Join Skirmish", d:"Queue a Skirmish match."},{t:"Win 1 or Lose 2", d:"Winning one match completes it; a loss gives half progress, so two losses also finish it."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Base Wars Skirmish", tip: "Try to win - but losing still counts half!", warn: "", reward: "Manliest Man Award badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 3)", intro: "This secret goes live with Drop 3. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 3", d:"This secret unlocks with Drop 3."},{t:"Normal Badge First", d:"Earn the match badge first."},{t:"Check Hub Clue", d:"When Drop 3 goes live, check the Hunt Hub for the 2012 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2012 pedestal."}], loc: "Base Wars (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 3!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 3 goes live, check the Hunt Hub clue for exact steps." } },
+            2013: { game: "Apocalypse Rising 2", normal: { title: "Normal Badge - Biting BLOXikin (Survive Objectives)", steps: [{t:"Enter Game", d:"Click the 2013 portal."},{t:"Get Gear", d:"Find a backpack, a primary weapon and a melee weapon."},{t:"Kill 5 Zombies", d:"Knife them while walking backward to avoid damage."},{t:"Walk 2000 Studs", d:"Explore - but DON'T die, dying can reset the walk progress. Carry food & water for stamina."},{t:"See Sun", d:"Witness a sunrise or sunset."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Apocalypse Rising 2 world", tip: "Loot first, keep food/water stocked, stay alive!", warn: "", reward: "Biting BLOXikin badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 2)", intro: "This secret goes live with Drop 2. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 2", d:"This secret unlocks with Drop 2."},{t:"Normal Badge First", d:"Earn the survival badge first."},{t:"Check Hub Clue", d:"When Drop 2 goes live, check the Hunt Hub for the 2013 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2013 pedestal."}], loc: "Apocalypse Rising 2 (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 2!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 2 goes live, check the Hunt Hub clue for exact steps." } },
+            2014: { game: "Murder Mystery 2", normal: { title: "Normal Badge - Knife-Dodger's Bighead (Collect 50 Coins)", steps: [{t:"Enter Game", d:"Click the 2014 portal."},{t:"Play Rounds", d:"Coins are scattered around the maps during rounds."},{t:"Collect 50", d:"Pick them up across several rounds. If you die, wait for the round to finish."},{t:"Claim", d:"Return to the Hub statue."}], loc: "MM2 maps", tip: "Play as Innocent and sweep coin spots each round!", warn: "", reward: "Knife-Dodger's Bighead badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 4)", intro: "This secret goes live with Drop 4. Guide NOT YET VERIFIED - a second badge was spotted in testing but the quest is unknown.", verified: false, steps: [{t:"Wait for Drop 4", d:"This secret unlocks with Drop 4."},{t:"Normal Badge First", d:"Earn the 50-coin badge first."},{t:"Check Hub Clue", d:"When Drop 4 goes live, check the Hunt Hub for the 2014 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2014 pedestal."}], loc: "Murder Mystery 2 (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 4!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 4 goes live, check the Hunt Hub clue for exact steps." } },
+            2015: { game: "Lumber Tycoon 2", normal: { title: "Normal Badge - Leather Adventure Backpack (Supply Geck)", steps: [{t:"Enter Game", d:"Click the 2015 portal."},{t:"Chop Trees", d:"Use your axe to chop trees and collect logs."},{t:"Haul to Geck", d:"Deliver wood to Geck's deposit near the main shop until the bar fills to 100%."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Forest -> Geck's deposit", tip: "Buy/use a vehicle - way more wood per trip!", warn: "", reward: "Leather Adventure Backpack badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 4)", intro: "This secret goes live with Drop 4. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 4", d:"This secret unlocks with Drop 4."},{t:"Normal Badge First", d:"Earn the wood badge first."},{t:"Check Hub Clue", d:"When Drop 4 goes live, check the Hunt Hub for the 2015 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2015 pedestal."}], loc: "Lumber Tycoon 2 (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 4!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 4 goes live, check the Hunt Hub clue for exact steps." } },
+            2016: { game: "Roblox High School", normal: { title: "Normal Badge - Time Travel Schoolpack (Lost Student Quest)", steps: [{t:"Enter Game", d:"Click the 2016 portal."},{t:"Talk to Receptionist", d:"Start the lost-student story at the front desk."},{t:"Library", d:"Follow the objective to the library, talk to the librarian and collect the required book."},{t:"Metal Detector", d:"Follow markers until you receive the metal detector."},{t:"Find 3 Relics", d:"Detector beeps when close - search the map (forest, beach, club areas). Speed Coil / vehicle / skateboard helps a lot."},{t:"Return to Chuck", d:"Bring all 3 relics back to Chuck."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Roblox High School", tip: "Detector beeps faster when close - use a skateboard!", warn: "", reward: "Time Travel Schoolpack badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 2)", intro: "This secret goes live with Drop 2. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 2", d:"This secret unlocks with Drop 2."},{t:"Normal Badge First", d:"Earn the story badge first."},{t:"Check Hub Clue", d:"When Drop 2 goes live, check the Hunt Hub for the 2016 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2016 pedestal."}], loc: "Roblox High School (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 2!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 2 goes live, check the Hunt Hub clue for exact steps." } },
+            2017: { game: "Jailbreak", normal: { title: "Normal Badge - A Bandit's Bandana (Rescue 5 YouTubers)", steps: [{t:"Enter Game", d:"Click the 2017 portal."},{t:"Find YouTubers", d:"5 YouTubers are at fixed spots around the map - they glow YELLOW when you're close."},{t:"Rescue All 5", d:"Prison, donut shop, jewelry roof, museum, train areas."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Jailbreak city", tip: "Helicopter is fastest - locations are spread out!", warn: "", reward: "A Bandit's Bandana badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 3)", intro: "This secret goes live with Drop 3. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 3", d:"This secret unlocks with Drop 3."},{t:"Normal Badge First", d:"Earn the rescue badge first."},{t:"Check Hub Clue", d:"When Drop 3 goes live, check the Hunt Hub for the 2017 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2017 pedestal."}], loc: "Jailbreak (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 3!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 3 goes live, check the Hunt Hub clue for exact steps." } },
+            2018: { game: "Build a Boat for Treasure", normal: { title: "Normal Badge - Build A Boat for a Top Hat (Bake Cake)", steps: [{t:"Enter Game", d:"Click the 2018 portal."},{t:"Build Boat", d:"Build a boat with a SEAT plus a MOTOR/propeller so it's controllable."},{t:"Launch", d:"Put it in the water."},{t:"Sail to Bakery", d:"Follow the distance indicator and cake marker down the river."},{t:"Bake Cake", d:"Click the cake station at the bakery."},{t:"Claim", d:"Return to the Hub statue."}], loc: "River -> Bakery", tip: "MUST have seat + motor or you can't steer!", warn: "", reward: "Build A Boat for a Top Hat badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 3)", intro: "This secret goes live with Drop 3. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 3", d:"This secret unlocks with Drop 3."},{t:"Normal Badge First", d:"Earn the bakery badge first."},{t:"Check Hub Clue", d:"When Drop 3 goes live, check the Hunt Hub for the 2018 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2018 pedestal."}], loc: "Build a Boat (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 3!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 3 goes live, check the Hunt Hub clue for exact steps." } },
+            2019: { game: "Adopt Me!", normal: { title: "Normal Badge - The KittyKānka (Hatch Throwback Egg)", steps: [{t:"Enter Game", d:"Click the 2019 portal."},{t:"Earn 400 Bucks", d:"Do chores to afford the egg."},{t:"Buy Egg", d:"Purchase the Throwback Egg (400 Bucks) at the pet nursery."},{t:"Hatch", d:"Complete its needs until it hatches (Robux can speed it up)."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Pet nursery", tip: "Chores quickly = egg quickly!", warn: "", reward: "The KittyKānka badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 2)", intro: "This secret goes live with Drop 2. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 2", d:"This secret unlocks with Drop 2."},{t:"Normal Badge First", d:"Earn the hatch badge first."},{t:"Check Hub Clue", d:"When Drop 2 goes live, check the Hunt Hub for the 2019 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2019 pedestal."}], loc: "Adopt Me! (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 2!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 2 goes live, check the Hunt Hub clue for exact steps." } },
+            2020: { game: "World // Zero", normal: { title: "Normal Badge - Hounds of the Zero (Clear OG Tower)", steps: [{t:"Enter Game", d:"Click the 2020 portal."},{t:"Find OG Tower", d:"Locate and enter the OG tower."},{t:"Fight Through", d:"Clear the floors and defeat the enemies in each room."},{t:"Beat Boss", d:"Defeat the final boss at the top."},{t:"Claim", d:"Return to the Hub statue."}], loc: "OG Tower", tip: "Recommended level 85 - party up with stronger players if underleveled!", warn: "", reward: "Hounds of the Zero badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 4)", intro: "This secret goes live with Drop 4. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 4", d:"This secret unlocks with Drop 4."},{t:"Normal Badge First", d:"Earn the tower badge first."},{t:"Check Hub Clue", d:"When Drop 4 goes live, check the Hunt Hub for the 2020 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2020 pedestal."}], loc: "World // Zero (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 4!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 4 goes live, check the Hunt Hub clue for exact steps." } },
+            2021: { game: "Piggy", normal: { title: "Normal Badge - Willow's Legacy Hood (Escape 2 Maps)", steps: [{t:"Enter Game", d:"Click the 2021 portal."},{t:"Join Book One", d:"Join a Book One chapter."},{t:"Escape", d:"Solve puzzles and reach the exit - you can follow teammates doing objectives."},{t:"Escape Again", d:"Complete 2 escapes total."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Piggy Book One", tip: "Play with friends - follow their puzzle progress!", warn: "", reward: "Willow's Legacy Hood badge + UGC" }, secret: { title: "Secret Badge - Spark Wave Headset (Buried Time Machine)", intro: "Needs the normal badge first! VERIFIED REAL - went live September 19th.", verified: true, steps: [{t:"House Chapter 1 + Bot", d:"Vote House - Chapter 1 and select BOT mode. The hidden items only spawn in this map."},{t:"Find the Wrench", d:"Sweep the usual rooms until the Wrench spawns in your inventory."},{t:"Basement Safe", d:"Take the Wrench to the basement and use it on the small box set into the brick wall. The safe opens: SHOVEL (+hammer)."},{t:"Dig Behind the Well", d:"Go to the backyard and dig behind the well with the shovel - a time-machine capsule rises out of the ground."},{t:"Escape the Retro Map", d:"Enter the capsule -> retro secret map. Collect keys & boards, clear obstacles, then open the front door with the WHITE KEY and escape."},{t:"Claim", d:"Badge pops on escape. Claim Spark Wave Headset at the 2021 Hub pedestal."}], loc: "Piggy Book 1 Ch.1 House (Bot mode)", tip: "Bot mode = no real Piggy hunting you!", warn: "MUST have the normal badge first!", reward: "Secret badge + Spark Wave Headset UGC", visualDesc: "House Ch1 (Bot): wrench in house -> basement wall box -> shovel -> dig behind well in backyard -> time machine capsule -> retro map -> escape via front door with white key." } },
+            2022: { game: "Berry Avenue RP", normal: { title: "Normal Badge - The Berry Bundle (3 Role Quests)", steps: [{t:"Enter Game", d:"Click the 2022 portal."},{t:"Doctor Quest", d:"Collect and deliver the requested medical items."},{t:"Police Quest", d:"Complete the jail-sequence objectives."},{t:"Air Hostess Quest", d:"Deliver food to passengers at the airport."},{t:"Claim", d:"All three done = badge. Return to the Hub statue."}], loc: "Berry Avenue", tip: "Follow the objectives at the top of the screen!", warn: "", reward: "The Berry Bundle badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 3)", intro: "This secret goes live with Drop 3. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 3", d:"This secret unlocks with Drop 3."},{t:"Normal Badge First", d:"Earn the 3-role badge first."},{t:"Check Hub Clue", d:"When Drop 3 goes live, check the Hunt Hub for the 2022 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2022 pedestal."}], loc: "Berry Avenue (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 3!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 3 goes live, check the Hunt Hub clue for exact steps." } },
+            2023: { game: "Blade Ball", normal: { title: "Normal Badge - The Last Deflection (3 Knight Tix)", steps: [{t:"Enter Game", d:"Click the 2023 portal."},{t:"Find the Knight", d:"A special Knight NPC (no normal username) appears once per round."},{t:"Defeat It", d:"Kill the Knight - it drops a Tix. Pick it up."},{t:"Get 3 Tix", d:"Repeat over rounds until you have 3 Tix."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Blade Ball rounds", tip: "Invisibility ability helps you survive while hunting the Knight!", warn: "", reward: "The Last Deflection badge + UGC" }, secret: { title: "Secret Badge - Hands-On Experience (Serpent Breakout)", intro: "Needs the normal badge first! VERIFIED REAL - went live September 19th.", verified: true, steps: [{t:"Redeem SERPENT", d:"In the Codes menu enter SERPENT -> get the Serpentbane sword. Equip it in the Swords menu."},{t:"Get Your Token", d:"In normal mode eliminate a Serpent Knight bot - YOU must get the kill for it to count. Each kill = 1 token."},{t:"AFK Mode", d:"Back in lobby, activate AFK mode so you don't get dragged into other games."},{t:"Queue the Boss", d:"Go to the Serpent Breakout NPC and stand in the circle. You need at least 1 other player on the server to kill a Serpent Bot, then the Boss Battle button appears."},{t:"Phase 1", d:"Deflect balls back at the World Serpent to take off the first chunk of health. Party 12 times before it becomes vulnerable."},{t:"Phase 2", d:"Stay long range, watch the floor for red lasers from the sides. Double-jump the shockwaves."},{t:"Phase 3", d:"Lasers + balls + Serpent Bots at once. Hug far left/right - save respawns for this phase! A FULL TEAM WIPE resets the whole run."},{t:"Claim", d:"Win = Serpent Slayer badge. From spawn go LEFT toward the giant bicycle, cross to the next island. Claim statue on the right = Hands-On Experience UGC."}], loc: "Blade Ball (Serpent Breakout)", tip: "Private server with players who can parry = much easier! Use Dash ability to dodge lasers.", warn: "Team wipe resets the entire run! YOU must kill the Serpent Bot for the token.", reward: "Secret badge + Hands-On Experience UGC", visualDesc: "Codes -> SERPENT -> equip Serpentbane -> YOU kill Serpent Bot for token -> Serpent Breakout NPC -> boss battle (3 phases: deflect, dodge lasers, survive) -> cross bicycle to next island -> claim." } },
+            2024: { game: "Dress to Impress", normal: { title: "Normal Badge - The Runaway Sunhat (2 Rounds)", steps: [{t:"Enter Game", d:"Click the 2024 portal."},{t:"Join Rewind Mode", d:"Enter the limited-time 2024 Rewind mode."},{t:"Dress Up", d:"Dress for the theme and walk the runway."},{t:"Do 2 Rounds", d:"Complete 2 rounds - you do NOT need to win."},{t:"Claim", d:"Return to the Hub statue."}], loc: "2024 Rewind mode", tip: "Just finishing rounds counts - no winning needed!", warn: "", reward: "The Runaway Sunhat badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 2)", intro: "This secret goes live with Drop 2. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 2", d:"This secret unlocks with Drop 2."},{t:"Normal Badge First", d:"Earn the 2-round badge first."},{t:"Check Hub Clue", d:"When Drop 2 goes live, check the Hunt Hub for the 2024 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2024 pedestal."}], loc: "Dress to Impress (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 2!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 2 goes live, check the Hunt Hub clue for exact steps." } },
+            2025: { game: "Grow a Garden", normal: { title: "Normal Badge - Grown From a Garden (50 Fruits)", steps: [{t:"Enter Game", d:"Click the 2025 portal."},{t:"Find Owl's Base", d:"Locate the Wise Owl's base."},{t:"Steal Fruit", d:"Take fruit from the plants - carry 6-7 max or you slow down."},{t:"Deliver to Sam", d:"Bring fruit to Sam. Teleport back to your garden between trips to save time."},{t:"Repeat to 50", d:"Deliver 50 stolen fruits total."},{t:"Claim", d:"Return to the Hub statue."}], loc: "Owl's base -> Sam", tip: "Short trips with 6-7 fruits beat one overloaded run!", warn: "DO NOT carry more than 7 - you get too slow!", reward: "Grown From a Garden badge + UGC" }, secret: { title: "Secret Badge - NOT YET CONFIRMED (Drop 4)", intro: "This secret goes live with Drop 4. Guide NOT YET VERIFIED.", verified: false, steps: [{t:"Wait for Drop 4", d:"This secret unlocks with Drop 4."},{t:"Normal Badge First", d:"Earn the 50-fruit badge first."},{t:"Check Hub Clue", d:"When Drop 4 goes live, check the Hunt Hub for the 2025 clue."},{t:"Follow the Clue", d:"The exact steps are not confirmed yet. Watch the video guide or check community sources when it drops."},{t:"Claim", d:"Return to the Hub and claim at the 2025 pedestal."}], loc: "Grow a Garden (TBD)", tip: "Check the video guide when the drop goes live!", warn: "Guide not yet confirmed - wait for Drop 4!", reward: "Secret badge + exclusive UGC + 1 Fragment", visualDesc: "Guide not yet confirmed. When Drop 4 goes live, check the Hunt Hub clue for exact steps." } }
+        };
+
+        let currentYear = null;
+        const grid = document.getElementById('yearGrid');
+        for (let y = 2006; y <= 2025; y++) {
+            const btn = document.createElement('button');
+            btn.className = 'year-btn';
+            btn.textContent = y;
+            btn.onclick = () => openChoice(y);
+            grid.appendChild(btn);
+        }
+        
+        function refreshClaimable() {
+            document.querySelectorAll('#yearGrid .year-btn').forEach((btn, i) => {
+                const y = 2006 + i;
+                const d = getDrop(y);
+                const localTime = getLocalTimeStr(d.time);
+                
+                if (isSecretClaimable(y)) {
+                    btn.classList.add('claimable');
+                    btn.classList.remove('unverified');
+                    btn.title = y + ' - Secret badge CLAIMABLE now (' + d.name + ')';
+                } else {
+                    btn.classList.remove('claimable');
+                    if (!d.verified) btn.classList.add('unverified');
+                    btn.title = y + ' - Secret badge unlocks ' + localTime + ' (' + d.name + ')';
+                }
+            });
+        }
+        refreshClaimable();
+        setInterval(refreshClaimable, 30000);
+
+        const overlay = document.getElementById('overlay');
+        const mTitle = document.getElementById('modalTitle');
+        const mBody = document.getElementById('modalBody');
+        
+        const agreementOverlay = document.getElementById('agreementOverlay');
+        const agreementText = document.getElementById('agreementText');
+        const statusMessage = document.getElementById('statusMessage');
+        const checkboxContainer = document.getElementById('checkboxContainer');
+        const agreementCheckbox = document.getElementById('agreementCheckbox');
+        const confirmBtn = document.getElementById('confirmBtn');
+        
+        let hasScrolledToBottom = false;
+        let countdownStarted = false;
+
+        function checkAgreement() {
+            const hasAgreed = localStorage.getItem('hunt20_agreed');
+            if (!hasAgreed) {
+                agreementOverlay.classList.add('active');
+            }
+        }
+        
+        agreementText.addEventListener('scroll', function() {
+            if (!hasScrolledToBottom) {
+                if (this.scrollTop + this.clientHeight >= this.scrollHeight - 15) {
+                    hasScrolledToBottom = true;
+                    startCountdown();
+                }
+            }
+        });
+
+        function startCountdown() {
+            if (countdownStarted) return;
+            countdownStarted = true;
+            
+            statusMessage.className = 'status-message status-timer';
+            let seconds = 5;
+            statusMessage.textContent = `⏳ Please wait: ${seconds} seconds`;
+            
+            const timer = setInterval(() => {
+                seconds--;
+                if (seconds > 0) {
+                    statusMessage.textContent = `⏳ Please wait: ${seconds} seconds`;
+                } else {
+                    clearInterval(timer);
+                    statusMessage.className = 'status-message status-ready';
+                    statusMessage.textContent = '✅ You can now check the box below!';
+                    agreementCheckbox.disabled = false;
+                    checkboxContainer.classList.remove('disabled');
+                }
+            }, 1000);
+        }
+        
+        agreementCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                confirmBtn.disabled = false;
+                confirmBtn.classList.remove('disabled');
+                confirmBtn.classList.add('enabled');
+            } else {
+                confirmBtn.disabled = true;
+                confirmBtn.classList.remove('enabled');
+                confirmBtn.classList.add('disabled');
+            }
+        });
+        
+        confirmBtn.addEventListener('click', function() {
+            if (!this.disabled && agreementCheckbox.checked) {
+                localStorage.setItem('hunt20_agreed', 'true');
+                agreementOverlay.classList.remove('active');
+            }
+        });
+        
+        function openChoice(year) {
+            if (!data[year]) return;
+            currentYear = year;
+            const d = getDrop(year);
+            const localTime = getLocalTimeStr(d.time);
+            mTitle.textContent = `Year ${year}: ${data[year].game}`;
+            mBody.innerHTML = `
+                <div class="choice-box">
+                    <h3>Which badge do you want?</h3>
+                    <button class="big-btn btn-normal" onclick="showGuide('normal')">Normal Badge (Easy)</button>
+                    <button class="big-btn btn-secret" onclick="handleSecretClick(${year})">Secret Badge (Hidden)</button>
+                </div>
+            `;
+            overlay.classList.add('active');
+        }
+        
+        function handleSecretClick(year) {
+            const d = getDrop(year);
+            const localTime = getLocalTimeStr(d.time);
+            
+            if (!isSecretClaimable(year)) {
+                const gamesList = d.years.map(yy => `${yy} - ${data[yy].game}`).join(' &bull; ');
+                const verifiedLabel = d.verified ? '✅ Guide Verified' : '⚠️ Guide Not Yet Verified';
+                mBody.innerHTML = `
+                    <div style="text-align:center; padding: 30px 20px;">
+                        <div style="font-size: 50px; margin-bottom: 15px;">🔒</div>
+                        <h2 style="color: #D32F2F; margin-bottom: 10px;">SECRET BADGE NOT CLAIMABLE YET</h2>
+                        <p style="font-size: 15px; color: #555; margin-bottom: 15px;"><strong>This Secret Badge is not claimable yet. But you can still continue!</strong></p>
+                        <div style="background: #fff8e1; border: 1px solid #FFC107; padding: 12px; border-radius: 3px; margin-bottom: 15px; text-align:left;">
+                            <strong style="color: #856404;">⏰ Available in ${d.name} - ${localTime}</strong>
+                            <p style="font-size: 12px; color: #856404; margin-top:6px; margin-bottom:4px;">The 5 games + secret badges in ${d.name}:</p>
+                            <p style="font-size: 12px; color: #856404;">${gamesList}</p>
+                            <p style="font-size: 11px; color: #856404; margin-top:8px; font-style:italic;">${verifiedLabel}</p>
+                        </div>
+                        <p style="font-size: 12px; color: #888; margin-bottom: 15px;">You can read the full guide now and do it as soon as the drop goes live. Remember: you need this year's Normal Badge first!</p>
+                        <button class="big-btn btn-continue" onclick="showGuide('secret')">Continue Anyway (View Guide)</button>
+                        <button class="big-btn btn-back" onclick="openChoice(${year})">Go Back</button>
+                    </div>
+                `;
+            } else {
+                showGuide('secret');
+            }
+        }
+        
+        function showGuide(type) {
+            const d = data[currentYear][type];
+            const isSecret = type === 'secret';
+            const verifiedBadge = isSecret && d.verified ? '<span class="verified-badge">VERIFIED</span>' : (isSecret && !d.verified ? '<span class="unverified-badge">NOT VERIFIED</span>' : '');
+            mTitle.textContent = `${isSecret ? 'Secret' : 'Normal'} Badge: ${d.title} ${verifiedBadge}`;
+            
+            let html = `
+                <div class="guide-section">
+                    <div class="step-box ${isSecret ? 'secret' : ''} ${isSecret && !d.verified ? 'unverified' : ''}">
+                        <h4>Step-by-Step Instructions:</h4>
+                        ${d.intro ? `<p style="margin-bottom:12px; font-style:italic; color:#555; font-size:14px;">${d.intro}</p>` : ''}
+                        <ul class="step-list">
+                            ${d.steps.map((s, i) => `
+                                <li>
+                                    <div class="step-num">${i + 1}</div>
+                                    <span class="step-title">${s.t}</span>
+                                    ${s.d}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+            `;
+            
+            if (isSecret && currentYear === 2006 && d.isGifts) {
+                html += `
+                    <h4 style="color:#9C27B0; margin: 20px 0 10px 0; font-size:16px;">All 4 Purple Gift Locations:</h4>
+                    <div class="gift-box"><h5>Gift #1: Hill Top</h5><p><strong>Where:</strong> Floating midair above a hill on the expanded map.</p><p><strong>How:</strong> Stand under it, use <span class="tool">TROWEL</span> to build a wall/stairs, climb and touch it.</p></div>
+                    <div class="gift-box"><h5>Gift #2: Black Castle</h5><p><strong>Where:</strong> Inside black castle behind yellow vertical bars/grate.</p><p><strong>How:</strong> Use <span class="tool">ROCKET</span> to blow the yellow stripes, or <span class="tool">TROWEL</span> to build up to the opening.</p></div>
+                    <div class="gift-box"><h5>Gift #3: Glass Wall</h5><p><strong>Where:</strong> Between the yellow arch bridge and the hurricane-insurance billboard.</p><p><strong>How:</strong> Shift-lock squeeze through the seam, place <span class="tool">BOMB</span> - explosion launches you into the gift.</p></div>
+                    <div class="gift-box"><h5>Gift #4: Sky / Trampoline</h5><p><strong>Where:</strong> High in the sky above the trampoline.</p><p><strong>How:</strong> Bounce on the trampoline (one grab grants it server-wide). Also auto-awarded on character reset - save it for last!</p></div>
+                `;
+            }
+            
+            if (isSecret && !d.verified) {
+                html += `
+                    <div class="info-box info-unverified">
+                        <strong>⚠️ Guide Not Yet Verified</strong>
+                        <p>The exact steps for this secret badge have not been confirmed by the community yet. When the drop goes live, check the Hunt Hub clue and watch the video guide for the verified method.</p>
+                    </div>
+                `;
+            }
+            
+            html += `
+                    <div class="info-box info-loc"><strong>Location:</strong> ${d.loc}</div>
+                    ${d.tip ? `<div class="info-box info-tip"><strong>Pro Tip:</strong> ${d.tip}</div>` : ''}
+                    ${d.warn ? `<div class="info-box info-warn"><strong>WARNING:</strong> ${d.warn}</div>` : ''}
+                    <div class="info-box info-reward"><strong>Reward:</strong> ${d.reward}</div>
+                    <button class="big-btn btn-visual" onclick="toggleVisual()">📷 Show Visual Guide (Where Exactly to Look)</button>
+                    <div class="visual-guide" id="visualGuide">
+                        <h5> Visual Guide - Where to Look:</h5>
+                        <div class="visual-box">
+                            <strong>${d.visualDesc || "Watch the video guide below for the exact location!"}</strong>
+                        </div>
+                        <p><strong>💡 Can't find it?</strong> Watch a video guide - seeing someone do it makes it much easier!</p>
+                    </div>
+                    <a class="big-btn btn-video" href="https://www.youtube.com/results?search_query=The+Hunt+Roblox+20+${currentYear}+${encodeURIComponent(d.game)}+secret+badge+location+guide" target="_blank">▶ Watch Video Guide for ${currentYear} Secret Badge</a>
+                    <div class="info-box info-warn" style="margin-top:15px;">
+                        <strong>VERY IMPORTANT:</strong> 
+                        After finishing steps, you MUST go back to main Hunt Hub and click shimmering statue for Year ${currentYear}!
+                        ${isSecret && currentYear === 2006 ? '<br><br><strong>For 2006 Secret:</strong> Go to BLUE MOUNTAIN in main hub!' : ''}
+                    </div>
+                    <button class="big-btn btn-back" onclick="openChoice(${currentYear})">Go Back</button>
+                </div>
+            `;
+            mBody.innerHTML = html;
+            mBody.scrollTop = 0;
+        }
+        
+        function toggleVisual() {
+            const guide = document.getElementById('visualGuide');
+            if (guide) {
+                guide.classList.toggle('show');
+            }
+        }
+        
+        function closeModal() {
+            overlay.classList.remove('active');
+            currentYear = null;
+        }
+        
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+        
+        window.addEventListener('load', checkAgreement);
+    </script>
+</body>
+</html>

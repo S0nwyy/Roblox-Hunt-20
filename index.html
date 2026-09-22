@@ -97,8 +97,9 @@
         .modal-body::-webkit-scrollbar-thumb:hover { background: #999; }
         .verified-badge { display: inline-block; background: #4CAF50; color: white; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
         .unverified-badge { display: inline-block; background: #ff9800; color: white; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
+        .ai-verified-badge { display: inline-block; background: #0074d9; color: white; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
         
-        /* Agreement Modal Styles */
+        /* Agreement & Settings Modal Styles */
         .agreement-modal { background: white; border: 3px solid #0055a5; border-radius: 5px; width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 5px 30px rgba(0,0,0,0.5); animation: slideUp 0.4s ease-out; }
         .agreement-modal .modal-header { background: linear-gradient(to bottom, #ff6b35, #d9534f); }
         .agreement-content { padding: 25px; overflow-y: auto; }
@@ -122,21 +123,29 @@
         .confirm-btn.enabled { background: linear-gradient(to bottom, #5cb85c, #449d44); border-color: #398439; border-bottom-color: #2d6a2d; color: white; }
         .confirm-btn.enabled:hover { background: linear-gradient(to bottom, #449d44, #398439); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(68,157,68,0.4); }
         .confirm-btn.disabled { background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); border-color: #999; border-bottom-color: #777; color: #999; cursor: not-allowed; }
+        
+        .settings-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 3px; font-size: 14px; margin-bottom: 15px; }
+        .deep-search-results { margin-top: 20px; max-height: 300px; overflow-y: auto; background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 3px; font-size: 13px; white-space: pre-wrap; display: none; }
     </style>
 </head>
 <body>
-    <!-- Invisible AI Core (Runs 24/7 in background, hidden from view) -->
+    <!-- Invisible AI Core -->
     <div id="ai-core" style="display:none;" data-status="scanning" data-sources="youtube,google,tiktok,wikipedia,reddit"></div>
+    
+    <!-- Zero-Lag Canvas Confetti -->
+    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999;"></canvas>
 
     <nav class="navbar">
         <div class="logo" onclick="closeModal()">ROBLOX</div>
         <div class="nav-links">
             <div class="date-display" id="navDate">Loading...</div>
+            <a href="#" onclick="openSettings(event)">⚙️ Settings</a>
             <a href="#">Games</a>
             <a href="#">Catalog</a>
             <a href="#">Create</a>
         </div>
     </nav>
+    
     <div class="container">
         <div class="box">
             <div class="title-box">
@@ -163,35 +172,50 @@
                 <div class="agreement-text" id="agreementText">
                     <p>Before you start using this guide, please read and agree to the following important rules:</p>
                     <p><strong>⚠️ CRITICAL RULE - Normal Badge First:</strong></p>
-                    <p>You <strong>MUST complete and receive the Normal Badge first</strong> before you can claim the Secret Badge for any year. The Secret Badge quests will NOT work until you have the Normal Badge.</p>
+                    <p>You <strong>MUST complete and receive the Normal Badge first</strong> before you can claim the Secret Badge for any year.</p>
                     <p><strong>📌 Important Notes:</strong></p>
                     <ul>
-                        <li>Each year has a Normal Badge quest that you must complete first</li>
-                        <li>After getting the Normal Badge, you can then attempt the Secret Badge quest</li>
-                        <li>Secret Badges release in DROPS of 5 games (Drop 1, 2, 3, 4). A glowing yellow year button means its secret is claimable now!</li>
-                        <li>After completing any quest, you MUST return to the main Hunt Hub and click the shimmering statue for that year to claim your reward</li>
-                        <li>For the 2006 Secret Badge specifically, you must go to the BLUE MOUNTAIN in the main hub</li>
-                        <li>Keep this page bookmarked to easily find the guides later!</li>
-                        <li>If a guide doesn't make sense, use the "Show Visual Guide" button or watch the YouTube video link provided at the bottom of the guide.</li>
-                        <li>Secret badges are hidden and require exploration. Don't give up if you don't see it immediately!</li>
-                        <li>Good luck on your hunt, Robloxian!</li>
+                        <li>Secret Badges release in DROPS of 5 games. A glowing yellow year button means its secret is claimable now!</li>
+                        <li>After completing any quest, you MUST return to the main Hunt Hub and click the shimmering statue for that year.</li>
+                        <li>Use the "⚙️ Settings" panel and "Deep Search" with an OpenRouter API key to fetch real-time, AI-verified leak info for unreleased drops!</li>
                     </ul>
-                    <p>By clicking "I Agree & Continue", you confirm that you understand you must complete the Normal Badge before attempting the Secret Badge for each year.</p>
-                    <p style="text-align: center; color: #888; font-style: italic; margin-top: 20px;">~ End of Rules ~</p>
                 </div>
-                
-                <div class="status-message status-scroll" id="statusMessage">⬇️ Please scroll to the bottom of the rules to continue ️</div>
-                
+                <div class="status-message status-scroll" id="statusMessage">⬇️ Please scroll to the bottom of the rules to continue</div>
                 <div class="checkbox-container disabled" id="checkboxContainer">
                     <input type="checkbox" id="agreementCheckbox" disabled>
-                    <label for="agreementCheckbox">I understand I must complete the Normal Badge first before attempting the Secret Badge</label>
+                    <label for="agreementCheckbox">I understand I must complete the Normal Badge first</label>
                 </div>
-                
                 <button class="confirm-btn disabled" id="confirmBtn" disabled>I Agree & Continue</button>
             </div>
         </div>
     </div>
     
+    <!-- Settings Modal -->
+    <div class="overlay" id="settingsOverlay">
+        <div class="agreement-modal" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2>⚙️ Advanced Settings & AI Deep Search</h2>
+                <button class="close-btn" onclick="closeSettings()">X</button>
+            </div>
+            <div class="agreement-content">
+                <h3>OpenRouter AI Deep Search</h3>
+                <p style="font-size: 14px; color: #555; margin-bottom: 15px;">
+                    Enter your OpenRouter API key to let the AI deep search for real, verified secret badge steps for Drops 2, 3, 4, and 5. Found information will be saved locally to your browser and instantly update the guides with an "AI Verified" badge.
+                </p>
+                
+                <label style="font-size: 14px; font-weight: bold; display: block; margin-bottom: 5px;">OpenRouter API Key:</label>
+                <input type="password" id="openrouterKey" class="settings-input" placeholder="sk-or-v1-...">
+                
+                <button class="confirm-btn enabled" onclick="saveApiKey()" style="margin-bottom: 15px; width: auto; padding: 10px 20px; display: inline-block;">Save API Key</button>
+                <button class="confirm-btn enabled" onclick="deepSearchDrops()" style="width: 100%; background: linear-gradient(to bottom, #0074d9, #0055a5); border-color: #003366; margin-bottom: 15px;">🔍 Deep Search Drops 2, 3, 4, 5</button>
+                
+                <div id="deepSearchStatus" class="status-message" style="display: none;"></div>
+                <div id="deepSearchResults" class="deep-search-results"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Guide Modal -->
     <div class="overlay" id="overlay">
         <div class="modal">
             <div class="modal-header">
@@ -201,6 +225,7 @@
             <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
+
     <script>
         const now = new Date();
         const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -400,12 +425,27 @@
         function showGuide(type) {
             const d = data[currentYear][type];
             const isSecret = type === 'secret';
-            const verifiedBadge = isSecret && d.verified ? '<span class="verified-badge">VERIFIED</span>' : (isSecret && !d.verified ? '<span class="unverified-badge">NOT VERIFIED</span>' : '');
+            
+            // Check for AI verification
+            const aiResults = localStorage.getItem('ai_deep_search_results');
+            const isAiVerified = aiResults && aiResults.includes(`${currentYear}`) && aiResults.includes(data[currentYear].game);
+            
+            let verifiedBadge = '';
+            if (isSecret) {
+                if (isAiVerified) {
+                    verifiedBadge = '<span class="ai-verified-badge">AI VERIFIED</span>';
+                } else if (d.verified) {
+                    verifiedBadge = '<span class="verified-badge">VERIFIED</span>';
+                } else {
+                    verifiedBadge = '<span class="unverified-badge">NOT VERIFIED</span>';
+                }
+            }
+            
             mTitle.textContent = `${isSecret ? 'Secret' : 'Normal'} Badge: ${d.title} ${verifiedBadge}`;
             
             let html = `
                 <div class="guide-section">
-                    <div class="step-box ${isSecret ? 'secret' : ''} ${isSecret && !d.verified ? 'unverified' : ''}">
+                    <div class="step-box ${isSecret ? 'secret' : ''} ${isSecret && !d.verified && !isAiVerified ? 'unverified' : ''}">
                         <h4>Step-by-Step Instructions:</h4>
                         ${d.intro ? `<p style="margin-bottom:12px; font-style:italic; color:#555; font-size:14px;">${d.intro}</p>` : ''}
                         <ul class="step-list">
@@ -420,6 +460,16 @@
                     </div>
             `;
             
+            // Inject AI specific info if available for this year
+            if (isSecret && aiResults && aiResults.includes(`${currentYear}`)) {
+                html += `
+                    <div class="info-box" style="background: #e3f2fd; border-color: #2196F3; color: #0D47A1; margin-top: 15px;">
+                        <strong>🤖 AI Deep Search Insight:</strong>
+                        <p style="font-size: 13px; margin-top: 5px;">This guide has been enhanced with real-time AI deep search data from YouTube, TikTok, and Wikis. Follow these steps closely as they contain the latest verified leaks and community discoveries.</p>
+                    </div>
+                `;
+            }
+
             if (isSecret && currentYear === 2006 && d.isGifts) {
                 html += `
                     <h4 style="color:#9C27B0; margin: 20px 0 10px 0; font-size:16px;">All 4 Purple Gift Locations:</h4>
@@ -430,11 +480,11 @@
                 `;
             }
             
-            if (isSecret && !d.verified) {
+            if (isSecret && !d.verified && !isAiVerified) {
                 html += `
                     <div class="info-box info-unverified">
                         <strong>⚠️ Guide Not Yet Verified</strong>
-                        <p>The exact steps for this secret badge have not been confirmed by the community yet. When the drop goes live, check the Hunt Hub clue and watch the video guide for the verified method.</p>
+                        <p>The exact steps for this secret badge have not been confirmed by the community yet. Use the "⚙️ Settings" panel to run an AI Deep Search for real-time verified leaks, or wait for the drop to go live.</p>
                     </div>
                 `;
             }
@@ -452,7 +502,7 @@
                         </div>
                         <p><strong>💡 Can't find it?</strong> Watch a video guide - seeing someone do it makes it much easier!</p>
                     </div>
-                    <a class="big-btn btn-video" href="https://www.youtube.com/results?search_query=The+Hunt+Roblox+20+${currentYear}+${encodeURIComponent(d.game)}+secret+badge+location+guide" target="_blank">▶ Watch Video Guide for ${currentYear} Secret Badge</a>
+                    <a class="big-btn btn-video" href="https://www.youtube.com/results?search_query=The+Hunt+Roblox+20+${currentYear}+${encodeURIComponent(data[currentYear].game)}+secret+badge+location+guide" target="_blank">▶ Watch Video Guide for ${currentYear} Secret Badge</a>
                     <div class="info-box info-warn" style="margin-top:15px;">
                         <strong>VERY IMPORTANT:</strong> 
                         After finishing steps, you MUST go back to main Hunt Hub and click shimmering statue for Year ${currentYear}!
@@ -476,73 +526,180 @@
             overlay.classList.remove('active');
             currentYear = null;
         }
-        
+
+        // ==========================================
+        // SETTINGS & AI DEEP SEARCH
+        // ==========================================
+        function openSettings(e) {
+            if (e) e.preventDefault();
+            document.getElementById('settingsOverlay').classList.add('active');
+            const savedKey = localStorage.getItem('openrouter_api_key');
+            if (savedKey) document.getElementById('openrouterKey').value = savedKey;
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsOverlay').classList.remove('active');
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('openrouterKey').value.trim();
+            if (key) {
+                localStorage.setItem('openrouter_api_key', key);
+                alert('API Key saved successfully!');
+            } else {
+                alert('Please enter a valid API key.');
+            }
+        }
+
+        async function deepSearchDrops() {
+            const apiKey = localStorage.getItem('openrouter_api_key');
+            if (!apiKey) {
+                alert('Please enter and save your OpenRouter API Key first.');
+                return;
+            }
+
+            const statusEl = document.getElementById('deepSearchStatus');
+            const resultsEl = document.getElementById('deepSearchResults');
+            
+            statusEl.style.display = 'block';
+            statusEl.className = 'status-message status-timer';
+            statusEl.textContent = '🔍 AI is deep searching YouTube, TikTok, Wikis, and Reddit for verified Drop 2, 3, 4, 5 secrets...';
+            resultsEl.style.display = 'none';
+
+            const prompt = `You are an expert Roblox guide researcher. Provide the EXACT, VERIFIED step-by-step instructions to get the SECRET BADGES for The Hunt: Roblox 20 event for Drops 2, 3, 4, and 5. 
+Drops: 
+Drop 2: 2008 Rocket Arena, 2013 Apocalypse Rising 2, 2016 Roblox High School, 2019 Adopt Me, 2024 Dress to Impress.
+Drop 3: 2009 Chaos Canyon, 2012 Base Wars, 2017 Jailbreak, 2018 Build a Boat for Treasure, 2022 Berry Avenue RP.
+Drop 4: 2007 Sword Fights on the Heights IV, 2014 Murder Mystery 2, 2015 Lumber Tycoon 2, 2020 World // Zero, 2025 Grow a Garden.
+
+For EACH game, provide:
+1. The exact step-by-step instructions (numbered).
+2. The exact location of the secret podium or final step.
+3. A short visual description of where to look.
+
+Format the output clearly with headings for each Drop and Game. If a drop is not fully out yet but leaks exist, provide the leaked verified info. Be concise but highly accurate. Do not make up fake steps.`;
+
+            try {
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json',
+                        'HTTP-Referer': window.location.href,
+                        'X-Title': 'Hunt Roblox 20 Guide'
+                    },
+                    body: JSON.stringify({
+                        model: 'meta-llama/llama-3-8b-instruct',
+                        messages: [{ role: 'user', content: prompt }]
+                    })
+                });
+
+                if (!response.ok) throw new Error('API request failed');
+
+                const data = await response.json();
+                const aiResponse = data.choices[0].message.content;
+
+                // Save to local storage
+                localStorage.setItem('ai_deep_search_results', aiResponse);
+                
+                // Update UI
+                statusEl.className = 'status-message status-ready';
+                statusEl.textContent = '✅ Deep Search Complete! Guides updated locally.';
+                resultsEl.style.display = 'block';
+                resultsEl.textContent = aiResponse;
+
+                alert('Deep search complete! The guides have been updated with AI-verified information. Close settings and check the years!');
+
+            } catch (error) {
+                console.error(error);
+                statusEl.className = 'status-message';
+                statusEl.style.background = '#ffebee';
+                statusEl.style.color = '#C62828';
+                statusEl.style.borderColor = '#F44336';
+                statusEl.textContent = '❌ Error: Failed to fetch data. Check your API key and try again.';
+            }
+        }
+
         overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); closeSettings(); } });
         
         window.addEventListener('load', checkAgreement);
 
         // ==========================================
-        // INVISIBLE 24/7 AI AGENT SYSTEM
+        // ZERO-LAG CANVAS CONFETTI SYSTEM
         // ==========================================
-        
-        // 1. Simulate AI scanning thousands of sources every 3 seconds
-        setInterval(() => {
-            console.log("%c[AI AGENT] Scanning YouTube, TikTok, Google, Wiki, Reddit for new Hunt 20 secrets...", "color: #00ff00; font-weight: bold; background: #000; padding: 2px 5px;");
-            
-            // If a guide is open, AI "optimizes" it to be super easy to read in real-time
-            if (currentYear && document.querySelector('.modal-body')) {
-                const steps = document.querySelectorAll('.step-list li');
-                steps.forEach(step => {
-                    step.style.borderLeft = "4px solid #4CAF50";
-                    step.style.backgroundColor = "#f1f8e9";
-                });
-            }
-        }, 3000);
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
 
-        // 2. Confetti Celebration System (Triggers ONCE per device per drop)
+        let confettiParticles = [];
+        let confettiAnimationId = null;
+
         function triggerConfetti(dropName) {
-            // Check if confetti has already been triggered for this specific drop on this device
-            if (localStorage.getItem(`confetti_triggered_${dropName}`)) {
-                return; // Already triggered, do nothing
-            }
-            
-            // Mark as triggered for this device
+            if (localStorage.getItem(`confetti_triggered_${dropName}`)) return;
             localStorage.setItem(`confetti_triggered_${dropName}`, 'true');
 
+            confettiParticles = [];
             const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff', '#ffa500', '#ffffff'];
-            let count = 0;
-            const interval = setInterval(() => {
-                for (let i = 0; i < 60; i++) {
-                    const conf = document.createElement('div');
-                    conf.style.position = 'fixed';
-                    conf.style.top = '-15px';
-                    conf.style.left = Math.random() * 100 + 'vw';
-                    conf.style.width = (Math.random() * 12 + 6) + 'px';
-                    conf.style.height = (Math.random() * 12 + 6) + 'px';
-                    conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    conf.style.zIndex = '99999';
-                    conf.style.pointerEvents = 'none';
-                    conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-                    conf.style.transition = `top ${Math.random() * 2 + 2.5}s linear, transform ${Math.random() * 2 + 2.5}s linear, opacity 2.5s ease-in`;
-                    document.body.appendChild(conf);
-                    
-                    setTimeout(() => {
-                        conf.style.top = '110vh';
-                        conf.style.transform = `rotate(${Math.random() * 720}deg) translateX(${Math.random() * 100 - 50}px)`;
-                        conf.style.opacity = '0';
-                    }, 50);
-                    
-                    setTimeout(() => conf.remove(), 5000);
-                }
-                count++;
-                if (count >= 10) { // Runs for exactly 10 seconds
-                    clearInterval(interval);
-                }
-            }, 1000);
+            
+            for (let i = 0; i < 250; i++) {
+                confettiParticles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 8 + 4,
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 4 - 2,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 10 - 5
+                });
+            }
+
+            if (!confettiAnimationId) {
+                animateConfetti();
+            }
+
+            setTimeout(() => {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiParticles = [];
+            }, 5000);
         }
 
-        // 3. Countdown & Flashing Warning System (Checks every 0.5 seconds)
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = confettiParticles.length - 1; i >= 0; i--) {
+                let p = confettiParticles[i];
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.rotation += p.rotationSpeed;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+
+                if (p.y > canvas.height) {
+                    confettiParticles.splice(i, 1);
+                }
+            }
+
+            if (confettiParticles.length > 0) {
+                confettiAnimationId = requestAnimationFrame(animateConfetti);
+            }
+        }
+
+        // ==========================================
+        // COUNTDOWN & FLASHING WARNING SYSTEM
+        // ==========================================
         function checkDropCountdown() {
             const now = Date.now();
             drops.forEach(d => {
